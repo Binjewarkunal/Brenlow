@@ -194,6 +194,20 @@
 
   .card.hide{display:none;}
 
+  .img-placeholder{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    background:var(--grad); color:#fff; font-family:'Fraunces', serif;
+    font-size:44px; font-weight:700; letter-spacing:.02em;
+  }
+
+  .dir-toggle-wrap{display:flex; justify-content:center; margin-top:36px;}
+  .btn-toggle{
+    padding:13px 26px; border-radius:100px; font-weight:600; font-size:14px;
+    background:var(--surface); border:1px solid var(--border); color:var(--ink);
+    cursor:pointer; transition:all .2s ease;
+  }
+  .btn-toggle:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
+
   /* ---------- CONTACT ---------- */
   .contact{
     padding:90px 0 70px; border-top:1px solid var(--border); text-align:center;
@@ -241,7 +255,7 @@
       <h1 style="margin-top:14px;">The creators<br>I actively <em>pitch & manage</em><br>for brand collabs.</h1>
       <p class="lead">I'm not their agent — I'm the person in their corner. Whenever a relevant brand campaign lands on my desk, these are the creators I bring it to, negotiate for, and manage the collab with, end to end.</p>
       <div class="hero-cta">
-        <a href="#directory" class="btn btn-primary">View the 21 creators ↓</a>
+        <a href="#directory" class="btn btn-primary">View the <span id="heroCount">21</span> creators ↓</a>
         <a href="#contact" class="btn btn-ghost">Send me a campaign</a>
       </div>
     </div>
@@ -262,7 +276,7 @@
 <section class="marquee-section">
   <div class="marquee-label">Brands I've run collaborations with</div>
   <div class="marquee-track" id="marqueeTrack">
-    <span>boAt</span><span>Amazon</span><span>One8</span><span>Britannia</span><span>Go Zero</span><span>Lotus Herbals</span><span>Zepto</span><span>Story TV</span><span>AngelOne</span><span>KFC</span><span>Magicpin</span><span>Alien Kind</span>
+    <span>boAt</span><span>Amazon</span><span>One8</span><span>Britannia</span><span>Go Zero</span><span>Lotus Herbals</span><span>Zepto</span><span>Story TV</span><span>AngelOne</span><span>KFC</span><span>Magicpin</span><span>Alien Kind</span><span>IGP</span><span>Zilo</span>
   </div>
 </section>
 
@@ -304,6 +318,10 @@
   <div class="grid" id="grid">
     <!-- cards injected by JS -->
   </div>
+
+  <div class="dir-toggle-wrap" id="toggleWrap">
+    <button class="btn-toggle" id="toggleBtn">View all creators ↓</button>
+  </div>
 </section>
 
 <section class="contact wrap" id="contact">
@@ -341,13 +359,48 @@ const creators = [
   {name:"Anshika Dixit", handle:"anshikadixiit", followers:"39.2K", img:"anshika_dixit.jpg", tags:["Fashion","Fitness"], cat:"fashion fitness"},
   {name:"Shweta Parihar", handle:"shweta.unfiltered", followers:"38.8K", img:"shweta_parihar.jpg", tags:["Mom Life","Travel"], cat:"parenting travel"},
   {name:"Ruchika Kalyani", handle:"fit_ruchikakalyani", followers:"10.5K", img:"ruchika_kalyani.jpg", tags:["Fitness","Home Workouts"], cat:"fitness"},
+  {name:"Radhika Bajoria", handle:"radhika_bajoria_", followers:"14K", img:"radhika_bajoria.jpg", tags:["Talk Show","TEDx Speaker"], cat:"career entertainment"},
+  {name:"Studious Harshita", handle:"studious_harshita", followers:"36.5K", img:"studious_harshita.jpg", tags:["EdTech","Study Tips"], cat:"career"},
+  {name:"Sagar Sinha", handle:"sagarsinhapodcast", followers:"370K", img:"sagar_sinha.jpg", tags:["Podcast","Finance"], cat:"entertainment career"},
+  {name:"Himani", handle:"jaipurfoodblogs", followers:"99.6K", img:"jaipurfoodblogs.jpg", tags:["Food","Travel"], cat:"travel entertainment"},
+  {name:"Clara / Hemangi", handle:"fits.with.clara", followers:"18.2K", img:"fits_with_clara.jpg", tags:["Styling","Fashion"], cat:"fashion"},
+  {name:"Yogi Yogendra", handle:"technicalyogi", followers:"127K", img:"technicalyogi.jpg", tags:["Tech","Reels"], cat:"career entertainment"},
+  {name:"Shrishti", handle:"lifewithshrishti", followers:"74.1K", img:"lifewithshrishti.jpg", tags:["Lifestyle","Productivity"], cat:"career fashion"},
+  {name:"Gurpreet Kaur", handle:"gurry_makeovers", followers:"20.7K", img:"gurry_makeovers.jpg", tags:["Makeup","Bridal"], cat:"fashion"},
+  {name:"Rohit Gupta", handle:"_theunboxhub_", followers:"383K", img:"theunboxhub.jpg", tags:["Tech","Unboxing"], cat:"career"},
+  {name:"Sonika Yadav", handle:"sonikayadav_19", followers:"39.9K", img:"sonikayadav.jpg", tags:["Model","Lifestyle"], cat:"fashion travel"},
 ];
 
+// ---- helpers ----
+function parseFollowers(str){
+  const s = String(str).trim().toUpperCase();
+  if(s.endsWith('M')) return parseFloat(s) * 1000000;
+  if(s.endsWith('K')) return parseFloat(s) * 1000;
+  return parseFloat(s) || 0;
+}
+function formatFollowers(n){
+  if(n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M+';
+  return (n/1000).toFixed(1).replace(/\.0$/,'') + 'K+';
+}
+
+const sortedByFollowers = [...creators].sort((a,b) => parseFollowers(b.followers) - parseFollowers(a.followers));
+const featuredSet = new Set(sortedByFollowers.slice(0,10).map(c => c.handle));
+const TOP_N = 10;
+
+let activeFilter = 'all';
+let showAll = false;
+
 const grid = document.getElementById('grid');
-grid.innerHTML = creators.map(c => `
+const dirCount = document.getElementById('dirCount');
+const toggleWrap = document.getElementById('toggleWrap');
+const toggleBtn = document.getElementById('toggleBtn');
+const heroCount = document.getElementById('heroCount');
+
+function cardHTML(c){
+  return `
   <div class="card" data-cat="${c.cat}">
     <div class="shot-frame">
-      <img src="${c.img}" alt="${c.name} Instagram profile" loading="lazy">
+      <img src="${c.img}" alt="${c.name} Instagram profile" loading="lazy" onerror="handleImgError(this)">
       <div class="shot-fade"></div>
     </div>
     <div class="card-body">
@@ -361,23 +414,56 @@ grid.innerHTML = creators.map(c => `
         View Instagram profile <span class="arrow">↗</span>
       </a>
     </div>
-  </div>
-`).join('');
+  </div>`;
+}
 
-document.getElementById('dirCount').textContent = `${creators.length} creators · 3.7M+ combined followers`;
+// fallback for broken/missing profile images -> shows initials on a gradient tile
+function handleImgError(img){
+  const frame = img.closest('.shot-frame');
+  if(!frame || frame.dataset.fallbackApplied) return;
+  frame.dataset.fallbackApplied = "1";
+  const name = img.alt.replace(' Instagram profile', '');
+  const initials = name.split(' ').filter(Boolean).map(n => n[0]).slice(0,2).join('').toUpperCase();
+  frame.innerHTML = `<div class="img-placeholder">${initials}</div>`;
+}
 
-const cards = document.querySelectorAll('.card');
+function render(){
+  let list;
+  if(activeFilter === 'all'){
+    list = showAll ? creators : sortedByFollowers.slice(0, TOP_N);
+  } else {
+    list = creators.filter(c => c.cat.split(' ').includes(activeFilter));
+  }
+  grid.innerHTML = list.map(cardHTML).join('');
+
+  const totalFollowers = creators.reduce((sum, c) => sum + parseFollowers(c.followers), 0);
+  dirCount.textContent = `${creators.length} creators · ${formatFollowers(totalFollowers)} combined followers`;
+  heroCount.textContent = creators.length;
+
+  if(activeFilter === 'all' && creators.length > TOP_N){
+    toggleWrap.style.display = 'flex';
+    toggleBtn.textContent = showAll ? 'Show less ↑' : `View all ${creators.length} creators ↓`;
+  } else {
+    toggleWrap.style.display = 'none';
+  }
+}
+
+toggleBtn.addEventListener('click', () => {
+  showAll = !showAll;
+  render();
+});
+
 document.getElementById('filters').addEventListener('click', (e) => {
   const btn = e.target.closest('.chip');
   if(!btn) return;
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
-  const f = btn.dataset.filter;
-  cards.forEach(card => {
-    const cats = card.dataset.cat.split(' ');
-    card.classList.toggle('hide', f !== 'all' && !cats.includes(f));
-  });
+  activeFilter = btn.dataset.filter;
+  if(activeFilter !== 'all') showAll = false;
+  render();
 });
+
+render();
 
 // duplicate marquee content for seamless loop
 const track = document.getElementById('marqueeTrack');
