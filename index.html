@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" type="image/png" href="brenlow_logo_transparent.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brenlow — Creator Collab Directory | Kunal Binjewar</title>
@@ -59,7 +60,7 @@
     font-family:'Fraunces', serif; font-weight:600; font-size:18px;
     display:flex; align-items:center; gap:9px;
   }
-  .nav-brand .dot{width:8px; height:8px; border-radius:50%; background:var(--grad);}
+  .nav-brand .nav-logo-mark{width:26px; height:26px; object-fit:contain; display:block;}
   .nav-brand .nav-by{font-family:'Inter',sans-serif; font-weight:500; font-size:12px; color:var(--ink-soft); margin-left:4px;}
   .nav-links{display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:600; color:var(--ink-soft);}
   .nav-links a{
@@ -102,25 +103,58 @@
 
   .kunal-card{
     background:var(--surface); border:1px solid var(--border); border-radius:24px;
-    padding:28px; box-shadow:var(--shadow); position:relative;
+    padding:28px; box-shadow:var(--shadow); position:relative; text-align:center;
   }
-  .kunal-ring{
-    width:96px; height:96px; border-radius:50%; padding:3px;
-    background:var(--grad);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:18px;
+  .glimpse-hero{position:relative; width:132px; height:132px; margin:0 auto 14px;}
+  .glimpse-hero-ring{
+    position:absolute; inset:0; border-radius:50%;
+    background:var(--conic-grad);
+    animation:glimmerSpin 5s linear infinite;
+    box-shadow:0 10px 32px -10px rgba(79,91,213,.4);
   }
-  .kunal-ring img{
-    width:100%; height:100%; border-radius:50%; object-fit:cover;
-    border:3px solid var(--surface); display:block;
+  .glimpse-hero-photo{
+    position:absolute; inset:7px; border-radius:50%; overflow:hidden;
+    background:var(--chip); border:3px solid var(--surface);
   }
+  .glimpse-hero-photo img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0; transform:scale(1.1); transition:opacity .9s ease, transform 1.8s ease;
+  }
+  .glimpse-hero-photo img.active{opacity:1; transform:scale(1);}
+  .glimpse-hero-caption{min-height:20px; margin-bottom:16px;}
+  .glimpse-hero-caption .g-name{
+    display:block; font-family:'Fraunces', serif; font-weight:600; font-size:16px; color:var(--ink);
+    opacity:0; transition:opacity .5s ease;
+  }
+  .glimpse-hero-caption .g-followers{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--accent); margin-top:2px;
+    opacity:0; transition:opacity .5s ease;
+  }
+  .glimpse-hero-caption.active .g-name, .glimpse-hero-caption.active .g-followers{opacity:1;}
   .kunal-card h3{font-size:22px; margin-bottom:3px;}
   .kunal-role{font-size:13.5px; color:var(--ink-soft); margin-bottom:18px;}
-  .kunal-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px;}
-  .kunal-stats div{border-top:1px solid var(--border); padding-top:10px;}
-  .kunal-stats .num{font-family:'IBM Plex Mono', monospace; font-size:17px; font-weight:600;}
-  .kunal-stats .lbl{font-size:11.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;}
-  .kunal-loc{font-size:13px; color:var(--ink-soft); display:flex; align-items:center; gap:6px; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);}
+  .network-line{
+    text-align:center; font-family:'IBM Plex Mono', monospace; font-size:13.5px;
+    color:var(--ink); padding:14px 0; border-top:1px solid var(--border); margin-bottom:4px;
+  }
+  .network-line span{font-weight:700; color:var(--accent);}
+  .kunal-loc{font-size:12.5px; color:var(--ink-soft); display:flex; align-items:center; justify-content:center; gap:6px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border);}
+
+  .founder-card{
+    display:block; margin-top:16px; background:var(--surface); border:1px solid var(--border);
+    border-radius:20px; padding:20px 22px; box-shadow:var(--shadow); text-decoration:none; color:var(--ink);
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .founder-card:hover{transform:translateY(-3px); border-color:var(--accent); box-shadow:0 20px 40px -18px rgba(20,18,23,.22);}
+  .founder-card-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
+  .founder-card-arrow{font-size:15px; color:var(--ink-soft); transition:transform .2s;}
+  .founder-card:hover .founder-card-arrow{transform:translate(2px,-2px); color:var(--accent);}
+  .founder-card h4{font-family:'Fraunces', serif; font-size:18px; font-weight:600; margin-bottom:14px;}
+  .founder-card-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px;}
+  .founder-card-stats div{border-top:1px solid var(--border); padding-top:9px;}
+  .founder-card-stats .num{font-family:'IBM Plex Mono', monospace; font-size:15.5px; font-weight:600;}
+  .founder-card-stats .lbl{font-size:10.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+  .founder-card-foot{font-size:12px; font-weight:600; color:var(--accent); text-align:right;}
 
   /* ---------- WAVE DIVIDER ---------- */
   .wave-divider{line-height:0; margin-top:18px;}
@@ -238,37 +272,7 @@
   }
   .btn-toggle:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
 
-  /* ---------- FLOATING GLIMPSE WIDGET ---------- */
-  .glimpse-widget{
-    position:fixed; right:22px; top:50%; transform:translateY(-50%);
-    z-index:60; display:flex; flex-direction:column; align-items:center; gap:10px;
-  }
-  .glimpse-circle{position:relative; width:100px; height:100px;}
-  .glimpse-ring{
-    position:absolute; inset:0; border-radius:50%;
-    background:var(--conic-grad);
-    animation:glimmerSpin 5s linear infinite;
-    box-shadow:0 8px 28px -8px rgba(79,91,213,.45);
-  }
   @keyframes glimmerSpin{ to{ transform:rotate(360deg); } }
-  .glimpse-photo{
-    position:absolute; inset:6px; border-radius:50%; overflow:hidden;
-    background:var(--chip); border:3px solid var(--surface);
-  }
-  .glimpse-photo img{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    opacity:0; transform:scale(1.1); transition:opacity .9s ease, transform 1.8s ease;
-  }
-  .glimpse-photo img.active{opacity:1; transform:scale(1);}
-  .glimpse-caption{
-    background:var(--surface); border:1px solid var(--border); border-radius:100px;
-    padding:7px 16px; text-align:center; box-shadow:var(--shadow);
-    opacity:0; transition:opacity .5s ease; max-width:150px;
-  }
-  .glimpse-caption.active{opacity:1;}
-  .glimpse-caption .g-name{display:block; font-weight:700; color:var(--ink); font-size:12px; font-family:'Inter',sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .glimpse-caption .g-followers{display:block; color:var(--accent); font-family:'IBM Plex Mono', monospace; font-size:10.5px; margin-top:2px;}
-  @media (max-width:1080px){ .glimpse-widget{display:none;} }
 
   /* ---------- CONTACT ---------- */
   .contact{
@@ -281,6 +285,58 @@
     margin:36px auto 0; max-width:460px; font-family:'Fraunces', serif; font-style:italic;
     font-weight:500; font-size:15.5px; color:var(--ink-soft); line-height:1.6;
   }
+
+  /* ---------- FOUNDER STRIP (contact section) ---------- */
+  .founder-strip{
+    display:flex; align-items:center; gap:14px; justify-content:center;
+    margin:34px auto 0; max-width:400px; padding:14px 20px; border-radius:100px;
+    background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow);
+  }
+  .founder-photo{width:46px; height:46px; border-radius:50%; overflow:hidden; flex-shrink:0; background:var(--chip);}
+  .founder-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .founder-text{display:flex; flex-direction:column; text-align:left;}
+  .founder-text strong{font-size:13.5px; color:var(--ink);}
+  .founder-text span{font-size:12px; color:var(--ink-soft);}
+
+  /* ---------- REGION SECTION ---------- */
+  .region-section{padding:20px 0 90px;}
+  .region-sub{font-size:14.5px; color:var(--ink-soft); max-width:520px; margin-top:8px; line-height:1.55;}
+  .region-chip{position:relative;}
+  .region-chip.empty{opacity:.45; cursor:default;}
+  .region-chip .soon{
+    display:block; font-size:9px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+    margin-top:1px; color:var(--accent);
+  }
+  .region-chip.empty .soon{color:var(--ink-soft);}
+  .region-panel{
+    border:1px solid var(--border); border-radius:20px; background:var(--surface);
+    padding:28px 30px; box-shadow:var(--shadow);
+  }
+  .region-panel-head{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .region-panel-head h3{font-family:'Fraunces', serif; font-size:22px; font-weight:600;}
+  .region-panel-head .lang{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--accent);}
+  .region-niche-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--ink-soft); margin:20px 0 10px;
+  }
+  .region-niche-label:first-of-type{margin-top:0;}
+  .region-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .region-card{
+    display:flex; align-items:center; gap:12px; padding:12px; border-radius:14px;
+    border:1px solid var(--border); text-decoration:none; color:var(--ink);
+    transition:border-color .2s, transform .2s;
+  }
+  .region-card:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .region-card .rc-photo{width:48px; height:48px; border-radius:50%; overflow:hidden; flex-shrink:0; background:var(--chip);}
+  .region-card .rc-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .region-card .rc-info{min-width:0;}
+  .region-card .rc-name{font-size:13.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .region-card .rc-meta{font-size:11.5px; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace;}
+  .region-empty-msg{
+    text-align:center; padding:40px 20px; color:var(--ink-soft); font-size:14.5px;
+  }
+  @media (max-width:900px){ .region-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .region-grid{grid-template-columns:1fr;} .region-panel{padding:22px 18px;} }
 
   footer{
     padding:26px 0 40px; text-align:center; font-size:12.5px; color:var(--ink-soft);
@@ -305,10 +361,11 @@
 
 <nav>
   <div class="nav-inner">
-    <div class="nav-brand"><span class="dot"></span> Brenlow <span class="nav-by">by Kunal Binjewar</span></div>
+    <div class="nav-brand"><img src="brenlow_logo_transparent.png" alt="Brenlow logo" class="nav-logo-mark"> Brenlow <span class="nav-by">by Kunal Binjewar</span></div>
     <div class="nav-links">
       <a href="#overview">Overview</a>
       <a href="#directory">Directory</a>
+      <a href="#regions">Regions</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -335,16 +392,30 @@
       </div>
     </div>
     <div class="kunal-card">
-      <div class="kunal-ring"><img src="kunal_photo.jpg" alt="Kunal Binjewar" onerror="handleImgError(this)"></div>
-      <h3>Kunal Binjewar</h3>
-      <p class="kunal-role">Brand Collaborations &amp; Growth Strategy</p>
-      <div class="kunal-stats">
+      <div class="glimpse-hero">
+        <div class="glimpse-hero-ring"></div>
+        <div class="glimpse-hero-photo" id="heroGlimpsePhoto"></div>
+      </div>
+      <div class="glimpse-hero-caption" id="heroGlimpseCaption"></div>
+      <div class="network-line">
+        <span id="statCreators">35+</span> creators · <span id="statFollowers">4.9M+</span> combined followers
+      </div>
+      <div class="kunal-loc">📍 Mumbai, India · Brenlow by Kunal Binjewar</div>
+    </div>
+
+    <a class="founder-card" href="https://www.linkedin.com/in/kunalbinjewar" target="_blank">
+      <div class="founder-card-head">
+        <span class="eyebrow">Founder</span>
+        <span class="founder-card-arrow">↗</span>
+      </div>
+      <h4>Kunal Binjewar</h4>
+      <div class="founder-card-stats">
         <div><div class="num">25.2K+</div><div class="lbl">LinkedIn</div></div>
         <div><div class="num">8.9M+</div><div class="lbl">Impressions</div></div>
-        <div><div class="num">30+</div><div class="lbl">Brands</div></div>
+        <div><div class="num">30+</div><div class="lbl">Brand Collabs</div></div>
       </div>
-      <div class="kunal-loc">📍 Mumbai, Maharashtra, India</div>
-    </div>
+      <div class="founder-card-foot">View my LinkedIn profile</div>
+    </a>
   </div>
 </header>
 
@@ -355,7 +426,7 @@
 </div>
 
 <section class="marquee-section">
-  <div class="marquee-label">Brands I've run collaborations with</div>
+  <div class="marquee-label">Brands I've personally collaborated with on my own LinkedIn</div>
   <div class="marquee-track" id="marqueeTrack">
     <span>boAt</span><span>Amazon</span><span>One8</span><span>Britannia</span><span>Go Zero</span><span>Lotus Herbals</span><span>Zepto</span><span>Story TV</span><span>AngelOne</span><span>KFC</span><span>Magicpin</span><span>Alien Kind</span><span>IGP</span><span>Zilo</span><span>Palmonas</span>
   </div>
@@ -409,6 +480,24 @@
   </div>
 </section>
 
+<section class="region-section wrap" id="regions">
+  <div class="dir-head">
+    <div>
+      <span class="eyebrow">Explore by Region</span>
+      <h2 style="margin-top:10px;">Creators, state by state.</h2>
+      <p class="region-sub">Every state has its own creators, its own language, its own audience. Building this out region by region.</p>
+    </div>
+  </div>
+
+  <div class="filters" id="regionFilters">
+    <!-- region chips injected by JS -->
+  </div>
+
+  <div id="regionBody">
+    <!-- region content injected by JS -->
+  </div>
+</section>
+
 <section class="contact wrap" id="contact">
   <span class="eyebrow">Contact</span>
   <h2 style="margin-top:14px;">Got a brand campaign?<br>Let's find you the right creator.</h2>
@@ -418,17 +507,17 @@
     <a href="https://www.linkedin.com/in/kunalbinjewar" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
   </div>
   <p class="personal-note">"Still chasing my first campaign. I've put in the work to get this far — now I'm just looking for the right brand to take the leap with."</p>
+
+  <div class="founder-strip">
+    <div class="founder-photo"><img src="kunal_photo.jpg" alt="Kunal Binjewar" onerror="handleImgError(this)"></div>
+    <div class="founder-text">
+      <strong>Kunal Binjewar</strong>
+      <span>I'm the Brenlow founder — reach out any time.</span>
+    </div>
+  </div>
 </section>
 
 <footer>© 2026 Brenlow — Creator Collab Directory · Founded by Kunal Binjewar</footer>
-
-<div class="glimpse-widget" id="glimpseWidget">
-  <div class="glimpse-circle">
-    <div class="glimpse-ring"></div>
-    <div class="glimpse-photo" id="glimpsePhoto"></div>
-  </div>
-  <div class="glimpse-caption" id="glimpseCaption"></div>
-</div>
 
 <script>
 const creators = [
@@ -467,6 +556,15 @@ const creators = [
   {name:"Swati Rojha", handle:"swatirojha", followers:"607K", img:"swati_rojha.jpg", tags:["Travel","Motorcycles"], cat:"travel fitness"},
   {name:"Pushkar Raj Thakur", handle:"pushkarrajthakur", followers:"2.8M", img:"pushkar_raj_thakur.jpg", tags:["Finance","Entrepreneur"], cat:"career"},
   {name:"Anushka Kaushik", handle:"reel_anushka", followers:"904K", img:"anushka_kaushik.jpg", tags:["Acting","Reels"], cat:"entertainment fashion"},
+  {name:"Sumit Kumar", handle:"aapkatech", followers:"339K", img:"aapkatech.jpg", tags:["Gadgets","AI & Tips"], cat:"career"},
+  {name:"Atiksha Rathi", handle:"fin_saheli", followers:"1.2M", img:"fin_saheli.jpg", tags:["Finance","Business"], cat:"career"},
+  {name:"Raghu Chandrashekhar", handle:"markyvichara", followers:"57.1K", img:"markyvichara.jpg", tags:["Business","Marketing"], cat:"career", region:"Karnataka"},
+  {name:"Dheeraj Poojari", handle:"unchartedly", followers:"101K", img:"unchartedly.jpg", tags:["Finance","Investing"], cat:"career", region:"Karnataka"},
+  {name:"Deepak Gadhigappa", handle:"deepu.vlogs", followers:"265K", img:"deepu_vlogs.jpg", tags:["Automobile","Vlogs"], cat:"entertainment", region:"Karnataka"},
+  {name:"Tharesh Kumar", handle:"tharesh_kumar", followers:"622K", img:"tharesh_kumar.jpg", tags:["Automotive","Reels"], cat:"entertainment", region:"Karnataka"},
+  {name:"Rajeev K S", handle:"rajeevfinance", followers:"151K", img:"rajeevfinance.jpg", tags:["Finance","Investing"], cat:"career", region:"Karnataka"},
+  {name:"Sampath L S", handle:"tili.yuga", followers:"229K", img:"tili_yuga.jpg", tags:["Finance","Awareness"], cat:"career", region:"Karnataka"},
+  {name:"Meghana", handle:"prettymuchbusiness", followers:"136K", img:"prettymuchbusiness.jpg", tags:["Finance","Money Habits"], cat:"career", region:"Karnataka"},
 ];
 
 // ---- helpers ----
@@ -498,6 +596,8 @@ const toggleBtn = document.getElementById('toggleBtn');
 const heroCount = document.getElementById('heroCount');
 const acCount = document.getElementById('acCount');
 const acMore = document.getElementById('acMore');
+const statCreators = document.getElementById('statCreators');
+const statFollowers = document.getElementById('statFollowers');
 
 function cardHTML(c){
   return `
@@ -522,12 +622,12 @@ function cardHTML(c){
 
 // fallback for broken/missing profile images -> shows initials on a gradient tile
 function handleImgError(img){
-  const frame = img.closest('.shot-frame') || img.closest('.kunal-ring') || img.parentElement;
+  const frame = img.closest('.shot-frame') || img.closest('.founder-photo') || img.parentElement;
   if(!frame || frame.dataset.fallbackApplied) return;
   frame.dataset.fallbackApplied = "1";
   const name = img.alt.replace(' Instagram profile', '') || 'K B';
   const initials = initialsOf(name);
-  frame.innerHTML = `<div class="img-placeholder" style="${frame.classList.contains('kunal-ring') ? 'border-radius:50%;font-size:28px;' : ''}">${initials}</div>`;
+  frame.innerHTML = `<div class="img-placeholder" style="${frame.classList.contains('founder-photo') ? 'border-radius:50%;font-size:16px;' : ''}">${initials}</div>`;
 }
 
 function render(){
@@ -544,6 +644,8 @@ function render(){
   heroCount.textContent = creators.length;
   acCount.textContent = `${creators.length}+`;
   acMore.textContent = `+${Math.max(creators.length - 3, 0)}`;
+  statCreators.textContent = `${creators.length}+`;
+  statFollowers.textContent = formatFollowers(totalFollowers);
 
   if(activeFilter === 'all' && creators.length > TOP_N){
     toggleWrap.style.display = 'flex';
@@ -570,15 +672,97 @@ document.getElementById('filters').addEventListener('click', (e) => {
 
 render();
 
+// ---- Explore by Region ----
+const regionList = [
+  { name: "Karnataka",      lang: "Kannada" },
+  { name: "Maharashtra",    lang: "Marathi" },
+  { name: "Tamil Nadu",     lang: "Tamil" },
+  { name: "Kerala",         lang: "Malayalam" },
+  { name: "Andhra Pradesh", lang: "Telugu" },
+  { name: "West Bengal",    lang: "Bengali" },
+  { name: "Uttar Pradesh",  lang: "Hindi" },
+  { name: "Madhya Pradesh", lang: "Hindi" },
+  { name: "Rajasthan",      lang: "Hindi / Rajasthani" },
+  { name: "Assam",          lang: "Assamese" },
+];
+
+const catLabels = {
+  fashion:"Fashion & Lifestyle", fitness:"Fitness & Wellness", parenting:"Parenting & Family",
+  travel:"Travel & Nomad", career:"Career & Tech", entertainment:"Entertainment"
+};
+
+let activeRegion = regionList.find(r => creators.some(c => c.region === r.name))?.name || regionList[0].name;
+
+function regionCardHTML(c){
+  return `
+  <a class="region-card" href="https://www.instagram.com/${c.handle}" target="_blank">
+    <div class="rc-photo"><img src="${c.img}" alt="${c.name}" onerror="handleImgError(this)"></div>
+    <div class="rc-info">
+      <div class="rc-name">${c.name}</div>
+      <div class="rc-meta">${c.followers} · @${c.handle}</div>
+    </div>
+  </a>`;
+}
+
+function renderRegionFilters(){
+  const wrap = document.getElementById('regionFilters');
+  wrap.innerHTML = regionList.map(r => {
+    const has = creators.some(c => c.region === r.name);
+    return `<button class="chip region-chip ${has ? '' : 'empty'} ${r.name === activeRegion ? 'active' : ''}" data-region="${r.name}" ${has ? '' : 'disabled'}>
+      ${r.name}${has ? '' : '<span class="soon">Coming soon</span>'}
+    </button>`;
+  }).join('');
+}
+
+function renderRegionBody(){
+  const body = document.getElementById('regionBody');
+  const list = creators.filter(c => c.region === activeRegion);
+  const meta = regionList.find(r => r.name === activeRegion);
+
+  if(list.length === 0){
+    body.innerHTML = `<div class="region-panel"><div class="region-empty-msg">More creators from ${activeRegion} coming soon.</div></div>`;
+    return;
+  }
+
+  const cats = [...new Set(list.map(c => c.cat.split(' ')[0]))];
+  const nicheBlocks = cats.map(cat => {
+    const inCat = list.filter(c => c.cat.split(' ')[0] === cat);
+    return `
+      <div class="region-niche-label">${catLabels[cat] || cat}</div>
+      <div class="region-grid">${inCat.map(regionCardHTML).join('')}</div>
+    `;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="region-panel">
+      <div class="region-panel-head">
+        <h3>${activeRegion}</h3>
+        <span class="lang">${meta.lang} · ${list.length} creator${list.length > 1 ? 's' : ''}</span>
+      </div>
+      ${nicheBlocks}
+    </div>`;
+}
+
+document.getElementById('regionFilters').addEventListener('click', (e) => {
+  const btn = e.target.closest('.region-chip');
+  if(!btn || btn.disabled) return;
+  activeRegion = btn.dataset.region;
+  renderRegionFilters();
+  renderRegionBody();
+});
+
+renderRegionFilters();
+renderRegionBody();
+
 // duplicate marquee content for seamless loop
 const track = document.getElementById('marqueeTrack');
 track.innerHTML += track.innerHTML;
 
-// ---- floating "glimpse" widget: cycles through the most-followed creators ----
+// ---- hero "glimpse" showcase: cycles through the most-followed creators ----
 function initGlimpse(){
-  const spotlight = sortedByFollowers.slice(0, 6);
-  const photoWrap = document.getElementById('glimpsePhoto');
-  const caption = document.getElementById('glimpseCaption');
+  const spotlight = sortedByFollowers.slice(0, 8);
+  const photoWrap = document.getElementById('heroGlimpsePhoto');
+  const caption = document.getElementById('heroGlimpseCaption');
   if(!photoWrap || !caption || spotlight.length === 0) return;
 
   photoWrap.innerHTML = spotlight.map((c, i) =>
@@ -601,7 +785,7 @@ function initGlimpse(){
       imgs[idx] && imgs[idx].classList.add('active');
       paintCaption(spotlight[idx]);
     }, 350);
-  }, 2600);
+  }, 2400);
 }
 initGlimpse();
 </script>
