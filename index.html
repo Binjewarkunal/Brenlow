@@ -101,6 +101,43 @@
   .ac-text{font-size:13px; color:var(--ink-soft);}
   .ac-text strong{color:var(--ink); font-weight:700;}
 
+  /* ---------- CREATOR FAN ROW (cascading cards) ---------- */
+  .creator-fan-wrap{
+    margin-top:56px; overflow-x:auto; overflow-y:visible; padding:30px 4px 20px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .creator-fan-wrap::-webkit-scrollbar{display:none;}
+  .creator-fan{
+    display:flex; justify-content:center; align-items:flex-end; width:max-content; margin:0 auto;
+  }
+  .fan-card{
+    position:relative; width:148px; height:200px; border-radius:20px; overflow:hidden;
+    flex-shrink:0; margin-left:-38px; box-shadow:0 14px 30px -12px rgba(20,18,23,.28);
+    border:3px solid var(--surface); background:var(--chip);
+    text-decoration:none; display:block;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), z-index 0s, box-shadow .35s ease;
+  }
+  .fan-card:first-child{margin-left:0;}
+  .fan-card img{width:100%; height:100%; object-fit:cover; display:block;}
+  .fan-card .fc-tag{
+    position:absolute; top:9px; left:9px; background:rgba(255,255,255,.92); color:var(--ink);
+    font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:700;
+    padding:4px 8px; border-radius:100px;
+  }
+  .fan-card .fc-name{
+    position:absolute; left:0; right:0; bottom:0; padding:24px 12px 10px;
+    background:linear-gradient(to top, rgba(0,0,0,.72), transparent);
+    color:#fff; font-size:12.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .fan-card:hover{
+    transform:translateY(-16px) rotate(0deg) scale(1.06); z-index:50 !important;
+    box-shadow:0 26px 46px -16px rgba(20,18,23,.4);
+  }
+  @media (max-width:900px){
+    .fan-card{width:118px; height:164px; margin-left:-28px;}
+    .creator-fan-wrap{margin-top:40px;}
+  }
+
   .kunal-card{
     background:var(--surface); border:1px solid var(--border); border-radius:24px;
     padding:28px; box-shadow:var(--shadow); position:relative; text-align:center;
@@ -417,6 +454,12 @@
       <div class="founder-card-foot">View my LinkedIn profile</div>
     </a>
   </div>
+
+  <div class="creator-fan-wrap">
+    <div class="creator-fan" id="creatorFan">
+      <!-- fan cards injected by JS -->
+    </div>
+  </div>
 </header>
 
 <div class="wave-divider" aria-hidden="true">
@@ -532,7 +575,7 @@ const creators = [
   {name:"Mona Sanwal", handle:"mona_sanwal", followers:"114K", img:"mona_sanwal.jpg", tags:["Mom Life","Travel"], cat:"parenting travel"},
   {name:"Kratika Gupta", handle:"kratika.gupta.12", followers:"108K", img:"kratika_gupta.jpg", tags:["Fashion","Beauty"], cat:"fashion"},
   {name:"Pallavi K Adsul", handle:"pallaviadsuul", followers:"104K", img:"pallavi_adsul.jpg", tags:["Luxury","Motherhood"], cat:"fashion parenting"},
-  {name:"Priya Rawat", handle:"priyarwt07", followers:"100K", img:"priya_rawat.jpg", tags:["Fashion","Beauty"], cat:"fashion"},
+  {name:"Priya Rawat", handle:"priyarwt07", followers:"100K", img:"priya_rawat.jpg", tags:["Fashion","Beauty"], cat:"fashion", region:"Uttarakhand"},
   {name:"Swatee Rastogi", handle:"fitmeansbliss", followers:"101K", img:"swatee_rastogi.jpg", tags:["Fitness","Motivation"], cat:"fitness"},
   {name:"Sonam Sharma", handle:"styleupwithsonam", followers:"87.4K", img:"sonam_sharma.jpg", tags:["Fashion","Motherhood"], cat:"fashion parenting"},
   {name:"Priya Anand", handle:"priya_anand_huria", followers:"67.9K", img:"priya_anand.jpg", tags:["Fashion","Travel"], cat:"fashion travel"},
@@ -565,6 +608,14 @@ const creators = [
   {name:"Rajeev K S", handle:"rajeevfinance", followers:"151K", img:"rajeevfinance.jpg", tags:["Finance","Investing"], cat:"career", region:"Karnataka"},
   {name:"Sampath L S", handle:"tili.yuga", followers:"229K", img:"tili_yuga.jpg", tags:["Finance","Awareness"], cat:"career", region:"Karnataka"},
   {name:"Meghana", handle:"prettymuchbusiness", followers:"136K", img:"prettymuchbusiness.jpg", tags:["Finance","Money Habits"], cat:"career", region:"Karnataka"},
+  {name:"Spoorthi Rao", handle:"spoorthirao_", followers:"143K", img:"spoorthirao.jpg", tags:["Music","Classical Vocalist"], cat:"entertainment", region:"Karnataka"},
+  {name:"Kankana Basu", handle:"kankana___", followers:"69.3K", img:"kankana_basu.jpg", tags:["Travel","Luxury"], cat:"travel", region:"Karnataka"},
+  {name:"Hema Gayatri", handle:"hema.gayatri", followers:"327K", img:"hema_gayatri.jpg", tags:["Parenting","Lifestyle"], cat:"parenting", region:"Karnataka"},
+  {name:"Ashvithi Shetty", handle:"ashvithi_shetty", followers:"255K", img:"ashvithi_shetty.jpg", tags:["Lifestyle","Events"], cat:"fashion", region:"Karnataka"},
+  {name:"Rakshitha M C", handle:"raksha_achar15", followers:"53K", img:"rakshitha_mc.jpg", tags:["Dance","Reels"], cat:"entertainment", region:"Karnataka"},
+  {name:"Lalitha Naidu", handle:"missnaidu", followers:"210K", img:"lalitha_naidu.jpg", tags:["Fashion","Beauty"], cat:"fashion", region:"Karnataka"},
+  {name:"Rasna Bharadwaj", handle:"rasna.bharadwaj", followers:"69.9K", img:"rasna_bharadwaj.jpg", tags:["Skincare","Fashion"], cat:"fashion", region:"Assam"},
+  {name:"Prapti Upadhyay", handle:"prapsandsumit", followers:"22.2K", img:"prapti_upadhyay.jpg", tags:["Couple Creator","Lifestyle"], cat:"entertainment", region:"Maharashtra"},
 ];
 
 // ---- helpers ----
@@ -672,6 +723,23 @@ document.getElementById('filters').addEventListener('click', (e) => {
 
 render();
 
+// ---- Creator fan row (cascading cards, hero) ----
+function renderCreatorFan(){
+  const wrap = document.getElementById('creatorFan');
+  if(!wrap) return;
+  const angles = [-9, 6, -5, 8, -7, 4, -10, 5, -4];
+  const list = sortedByFollowers.slice(0, 9);
+  wrap.innerHTML = list.map((c, i) => `
+    <a class="fan-card" style="transform:rotate(${angles[i % angles.length]}deg); z-index:${i};"
+       href="https://www.instagram.com/${c.handle}" target="_blank">
+      <img src="${c.img}" alt="${c.name}" onerror="handleImgError(this)">
+      <span class="fc-tag">${c.followers}</span>
+      <span class="fc-name">${c.name}</span>
+    </a>
+  `).join('');
+}
+renderCreatorFan();
+
 // ---- Explore by Region ----
 const regionList = [
   { name: "Karnataka",      lang: "Kannada" },
@@ -684,6 +752,7 @@ const regionList = [
   { name: "Madhya Pradesh", lang: "Hindi" },
   { name: "Rajasthan",      lang: "Hindi / Rajasthani" },
   { name: "Assam",          lang: "Assamese" },
+  { name: "Uttarakhand",    lang: "Hindi / Garhwali" },
 ];
 
 const catLabels = {
